@@ -1,0 +1,253 @@
+/*
+Theme Name:     The Conversation
+Theme URI:      http://findtheconversation.com/
+Description:    The Conversation, based on Oxygen theme
+Author:         Chris Willard
+Author URI:     http://wllrd.com
+Template:       oxygen
+Version:        1
+*/
+
+/* @import url("../oxygen/style.css"); */
+
+/* override style stuff */
+#header {
+  position: relative;
+  margin: 10px 0;
+  padding-top: 0;
+}
+#header img {
+  right: 0;
+}
+#menu-primary {
+  width: auto;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  right: 0;
+}
+#footer-content {
+  width: 100%;
+}
+#footer .copyright {
+  float: right;
+}
+
+/* hacky custom sidebar */
+.post-content {
+  width: 63%;
+  float: left;
+}
+#con-sidebar {
+  width: 34%;
+  margin-left: 3%;
+  float: left;
+  margin-top: 58px;
+}
+.concept-thumb {
+  display: block;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 88px;
+}
+a.concept-thumb:hover {
+  border: none;
+}
+
+/* standard */
+a.btn {
+  background-color: #0da4d3;
+  color: #fff !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+a.btn:hover, a.btn.active {
+  color: #fff;
+  background-color: #000;
+  border: none;
+}
+
+/* hide comments */
+#hidden-comments {
+  display: none;
+}
+#show-comments {
+  margin: 20px 0;
+}
+
+/* episode carousel */
+#episode-container {
+  position: relative;
+  /* width: 750px; */
+  /* height: 600px; */
+  /* width: 1000px; */
+  /* height: 800px; */
+  margin: 20px auto;
+  /* vertical space = (total height - episode height - height of bottom thing) / 2 */
+  padding-top: 65px;
+}
+
+#episodes {
+  margin: 0;
+  height: 380px;
+}
+#episodes li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+#episodes li.first {
+  display: block;
+}
+#episodes li > a {
+  position: relative;
+  display: block;
+  width: 750px;
+}
+#episodes li > a:hover {
+  border: 0;
+}
+#episodes h2 {
+  text-transform: uppercase;
+  position: absolute;
+  right: 0;
+  top: 250px;
+  background-color: #fff;
+  padding: 10px 30px;
+}
+#episodes li > a h2, #episodes li > a .date {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#episodes li > a:hover h2, #episodes li > a:hover .date {
+  background-color: #000;
+  color: #fff;
+}
+#episodes .date {
+  position: absolute;
+  right: 0;
+  top: 300px;
+  color: #999;
+  background-color: #fff;
+  padding: 5px 30px 5px 10px;
+}
+#episodes p {
+  margin-top: 20px;
+  width: 500px;
+}
+#transport {
+  position: absolute;
+  top: 410px; /* 350 + top pad of container */
+  width: 750px;
+}
+#transport a {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  text-align: center;
+  display: block;
+  background-color: rgba(0,0,0,.5);
+  color: #fff;
+  z-index: 99;
+}
+#next-episode {
+  right: 0;
+}
+#transport a:hover {
+  border: 0;
+  background-color: #000;
+}
+
+#episode-thumbs {
+  position: absolute;
+  top: 0;
+  background-color: #fff;
+  margin: 0;
+  width: 750px;
+  z-index: 100;
+}
+#episode-thumbs li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+#episode-thumbs li a {
+  display: block;
+  border: 6px solid #fff;
+}
+#episode-thumbs li a:hover {
+  border-color: #0da4d3;
+}
+
+#controls {
+  margin-top: 20px;
+  width: 750px;
+}
+#controls .btn {
+  position: relative;
+  float: right;
+  margin-left: 10px;
+  z-index: 99;
+}
+
+/* map */
+svg {
+  font-family: Abel,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 10px;
+}
+.episode > rect {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+path {
+  fill: none;
+}
+.episode, .node, .detail text, .all-episodes {
+  cursor: pointer;
+}
+.all-episodes {
+  fill: #aaa;
+}
+.detail a text:hover, text.all-episodes:hover {
+  text-decoration: underline;
+}
+#graph-info {
+  position: absolute;
+  width: 140px;
+  right: 0;
+  bottom: 0;
+  padding-bottom: 10px;
+}
+
+/* references */
+#references h3 {
+  color: #999;
+}
+em.ref {
+  color: #999;
+  margin-left: 10px;
+}
+.ref-episode a, .ref-episode a:visited {
+  white-space: nowrap;
+  color: #999;
+}
+
+/* map */
+#map .leaflet-popup-content a {
+  display: block;
+  margin-top: 10px;
+  border-bottom: 1px solid transparent;
+}
+#map .leaflet-popup-content a:hover {
+  color: #000;
+  border-bottom-color: #0da4d3;
+}

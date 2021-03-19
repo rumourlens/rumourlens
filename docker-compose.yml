@@ -1,0 +1,13 @@
+version: '3'
+
+services: 
+  rumour:
+    build: .
+    container_name: "rumour"
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/rumour
+    network_mode: "host"
+
+ 

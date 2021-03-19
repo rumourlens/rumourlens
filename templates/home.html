@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale = 1.0">
+    <!-- <meta charset="UTF-8"> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/matrix.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/modal.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/font.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/nouislider.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- threejs -->
+    <script src="//unpkg.com/three"></script>
+    <script src="//unpkg.com/3d-force-graph"></script>
+    <script src="//unpkg.com/force-graph"></script>
+    <!-- <script src="//d3js.org/d3-scale-chromatic.v1.min.js"></script> -->
+
+    <!-- conversation -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>exRumourLens</title>
+    <link rel='stylesheet' id='style-css' href="{{ url_for('static', filename='styles/style_conservation.css') }}"
+        type='text/css' media='all' />
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            <div class="grid-header">
+                <div id="logo-griffith">
+                    <a href="/">
+                        <div>exRumourLens</div>
+                    </a>
+                </div>
+                <div id="select-file" class="header-content">
+                </div>
+                <div class="header-content" style="text-align: right;">
+                    <div class="summary-content">
+                        <div class="summary-header">#Hashtags</div>
+                        <div class="summary-body" id="totalHashtags">&nbsp;</div>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-header">#Links</div>
+                        <div class="summary-body" id="totalLinks">&nbsp;</div>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-header">#Users</div>
+                        <div class="summary-body" id="totalUsers">&nbsp;</div>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-header">#Tweets</div>
+                        <div class="summary-body" id="totalTweets">&nbsp;</div>
+                    </div>
+                    <div style="float: right; margin-right: 10px;">
+                        <span style="float:left; padding: 5px;">ALPHA MAX</span>
+                        <span style="float:left; padding: 0px 5px;"><input
+                                style="width: 120px; text-align: right; padding-right: 5px;box-sizing: border-box;"
+                                type="text" id="txtAlphaMax" value="0.05" /></span>
+                        <span style="float:left; padding: 2px 5px"> <button onClick="GlobalHandler.changeAlphaMax();"
+                                type="button" class="btn btn-sm btn-primary">
+                                Detect
+                            </button></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="block-content">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="group" style="height: 90vh; overflow: hidden;">
+                        <div class="group-header">
+                            <div class="col-sm-10">
+                                <div class="tab-main-content" onclick="selectTab(event,'users')" id="mainTabDefault">
+                                    Users
+                                </div>
+                                <div id="tab-tweets" class="tab-main-content" onclick="selectTab(event,'tweets')">
+                                    Tweets
+                                </div>
+                                <div id="tab-links" class="tab-main-content" onclick="selectTab(event,'links')">
+                                    Links
+                                </div>
+                                <div id="tab-hashtags" class="tab-main-content" onclick="selectTab(event,'hashtags')">
+                                    Hashtags
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="group-content"
+                            style="border-top: 1px solid #eef1f5; padding-top: 10px; height: 85vh; overflow: auto;">
+                            <div class="users tabcontent item-tab">
+                                <div class="group-content" id="divAnomalyUsers">
+                                </div>
+                            </div>
+                            <div class="tweets tabcontent item-tab">
+                                <div class="group-content" id="divAnomalyTweets">
+                                </div>
+                            </div>
+                            <div class="links tabcontent item-tab">
+                                <div class="group-content" id="divAnomalyLinks">
+                                </div>
+                            </div>
+                            <div class="hashtags tabcontent item-tab">
+                                <div class="group-content" id="divAnomalyHashtags">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="group" style="height: 90vh;">
+                        <!-- <div class="group-header">
+                            Social network simulation
+                        </div> -->
+                        <div class="group-content" style="overflow: hidden;">
+                            <div id="3d-graph" style="width: 100%; height: 90% !important;"></div>
+                            <div class="row" style="margin: 0px">
+                                <div class="col-sm-3" style="padding: 20px;">Day</div>
+                                <div class="col-sm-9">
+                                    <div id="slider-date" style="margin: 10px 20px 5px 20px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="divSubGraph" class="group" style="height: 45vh;overflow: hidden;border-right: none;">
+                        <div class="group-header" style="padding: 5px 10px">
+                            SUB GRAPH
+
+                        </div>
+                        <div class="group-content" style="border-top: 1px solid #eef1f5; padding-top: 10px;">
+                            <span id="subGraphScore"> </span>
+                            <div id="subgraph" style="width: 100%; height: 100% !important;"></div>
+                        </div>
+                    </div>
+                    <div class="group" style="height: 45vh; margin-top: 5px; border-right: none; position: relative;">
+                        <div class="group-header" style="padding: 5px 10px">
+                            NODE DETAILS
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#nodeDetailModal" id="btnViewDetail" style="visibility: hidden;">
+                                View Detail
+                            </button>
+                        </div>
+                        <div class="group-content" style="border-top: 1px solid #eef1f5; padding-top: 10px;">
+                            <div id="node-info" style="margin: 5px 20px"></div>
+                            <div id="confirm-info" style="width:100%; position: absolute; right: 2px; bottom: 5px; text-align: center;">
+                                <!-- <h5 style="margin-bottom: 2px;">
+                                    Do you think this entity is rumour-related?
+                                </h5>
+                                <button type="button" class="btn btn-sm btn-primary" 
+                                    id="btnReportRumour" style="line-height: 30px;  background-color: grey;">
+                                   Yes
+                                </button>
+                                <button type="button" class="btn btn-sm btn-primary"
+                                    id="btnNonReportRumour" style="line-height: 30px; background-color: grey;">
+                                    No
+                                </button> -->
+                            </div>
+                            <div class="modal fade" id="nodeDetailModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Feature information</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <canvas id="cvx-history" width="300" height="200"
+                                                style="margin: 0 auto; display: none;"></canvas>
+                                            <div id="div-history" width="500" height="500" style="margin: 0 auto"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/d3.v3.min.js') }}"></script> -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/hashtag.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/link.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tweet.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/user.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/graph.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/nouislider.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tab_handler.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/global_handler.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/selection-js/dist/selection.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            THREE.Cache.enabled = true;
+        });
+    </script>
+</body>
+
+</html>
