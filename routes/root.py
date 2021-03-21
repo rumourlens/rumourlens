@@ -74,8 +74,13 @@ def getSubGraphScore(nodes, alpha_max):
         if alpha > alpha_max:
             break
         lessThanAlpha = [item for item in listAlpha if item <= alpha]
+        print(len(listAlpha))
         x = len(lessThanAlpha)/len(listAlpha)
         y = alpha
+        if y == 0:
+            y = 0.000001
+        if x == 1:
+            x = x - 0.000001
         kl = x*math.log10(x/y) + (1-x)*math.log10((1-x)/(1-y))
         score = len(listAlpha) * kl
         if score > currentScore:

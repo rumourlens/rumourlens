@@ -61,6 +61,7 @@ def getTopHashtags(topX = 0):
         order by usages desc
     """
     ).fetchall()
+    
     results = []
     for hashtag in hashtags:
         results.append({
@@ -183,8 +184,8 @@ def getHasgtagUsages(hashtagId):
         FROM hashtag_tweet ht
             inner join tweets t on ht.tweet_id = t.id
         WHERE ht.is_deleted = false and hashtag_id = {}
-        group by to_char(t.created_date, 'DD.MM.YYYY')
-        order by to_char(t.created_date, 'DD.MM.YYYY')
+        group by to_char(t.created_date, 'DD.MM.YYYY'), t.created_date
+        order by t.created_date
     """.format(hashtagId.replace('h_', ''))
     ).fetchall()
   
@@ -193,7 +194,7 @@ def getHasgtagUsages(hashtagId):
 def setScore(id, score):
     sql = """
             
-           UPDATE hashtag set score = {} where id = {}
+           UPDATE hashtags set score = {} where id = {}
           """.format(score, id)
     db.session.execute(sql)
     db.session.commit()

@@ -184,8 +184,9 @@ def getLinkMentionHistory(linkId):
         FROM link_tweet ht
             inner join tweets t on ht.tweet_id = t.id
         WHERE ht.is_deleted = false and link_id = {}
-        group by to_char(t.created_date, 'DD.MM.YYYY')
-           order by to_char(t.created_date, 'DD.MM.YYYY')
+        group by to_char(t.created_date, 'DD.MM.YYYY'), t.created_date
+                     order by  t.created_date
+
     """.format(linkId.replace('l_', ''))
     ).fetchall()
   
@@ -194,7 +195,7 @@ def getLinkMentionHistory(linkId):
 def setScore(id, score):
     sql = """
             
-           UPDATE link set score = {} where id = {}
+           UPDATE links set score = {} where id = {}
           """.format(score, id)
     db.session.execute(sql)
     db.session.commit()

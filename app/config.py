@@ -10,5 +10,5 @@ database_uri = 'postgresql://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
     dbuser='rumourlens',
     dbpass='rumourlens2@21',
     dbhost='localhost',
-    dbname= 'rumourlens'
+    dbname='rumourlens'
 )

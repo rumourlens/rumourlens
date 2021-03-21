@@ -1,13 +1,14 @@
 
 const RumourGraph = new function () {
   const limitDateInterval = 6;
-  const staticFolder = '.';//static';//'./static';
+  const staticFolder = './static';//'./static';
   let currentSlider = 5;
   let dateSlider;
   let mainGraph;
   let interval;
   let isReloadSetup = true;
-  let selectedNode = 'h_38942';
+  let minScore = 1;
+  let selectedNode = '';
   const normalUser = new THREE.TextureLoader().load(`${staticFolder}/img/normal_user.png`);
   const normalUserMaterial = new THREE.SpriteMaterial({ map: normalUser });
   const fakeUser = new THREE.TextureLoader().load(`${staticFolder}/img/fake_user.png`);
@@ -126,10 +127,14 @@ const RumourGraph = new function () {
       .width(elem.clientWidth + 10)
       .height(elem.clientHeight - 140)
       .nodeRelSize(6)
-      .jsonUrl(`${staticFolder}/js/wholegraph.json`)
+      .jsonUrl(`${staticFolder}/js/wholegraph.json`) //quick build from DB
       .nodeAutoColorBy('text')
       .showNavInfo(false)
       .nodeVisibility((node) => {
+        if(node["score"] < minScore){
+          minScore = node["score"];
+          selectedNode = node["id"];
+        }
         if ((node['interval'] + 1) > currentSlider) {
           return false;
         }
@@ -188,7 +193,7 @@ const RumourGraph = new function () {
         isReloadSetup = true;
         setTimeout(function () {
           _refreshByInterval();
-        }, 4000);
+        }, 500);
       });
     x = mainGraph.cameraPosition();
     x.z = 4500;
@@ -314,9 +319,9 @@ const RumourGraph = new function () {
       dateSlider.noUiSlider.set(1);
       clearInterval(interval);
       isReloadSetup = false;
+      _loadSubgraph(node);
+      _loadNodeDetail(node);
     }
-    _loadSubgraph(node);
-    _loadNodeDetail(node);
   }
 
   this.updateRumourScore = (score) => {
