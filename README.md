@@ -1,6 +1,6 @@
 
 # exRumourLens
-exRumourLens: Early Rumour Detection with Multi-View Explanations
+exRumourLens: Auditable Rumour Detection with Multi-View Explanations
 
 # Prerequisites
 ### Installation
